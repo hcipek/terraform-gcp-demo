@@ -1,9 +1,10 @@
-*terraform init*      => Directory Initialization.
-*terraform fmt*       => Automatically updates configurations in the current directory for readability and consistency.
-*terraform validate*  => Checking syntactically validity and internally consistency.
-*terraform apply*     => Creates/Updates the Infrastructure. If you are applying destructive changes it will replace the resource instead of updating.
-*terraform show*      => Inspecting the state of Infrastructure.
-*terraform destroy*   => Destroys/Removes the Infrastructure.
+**Terraform Commands**
+- *terraform init*      => Directory Initialization.
+- *terraform fmt*       => Automatically updates configurations in the current directory for readability and consistency.
+- *terraform validate*  => Checking syntactically validity and internally consistency.
+- *terraform apply*     => Creates/Updates the Infrastructure. If you are applying destructive changes it will replace the resource instead of updating.
+- *terraform show*      => Inspecting the state of Infrastructure.
+- *terraform destroy*   => Destroys/Removes the Infrastructure.
 
 **.tf File Format**
 
