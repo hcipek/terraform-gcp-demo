@@ -1,10 +1,11 @@
-#  files
-variables.tf
-terraform.tfvars
-hakans-playground-316dc186662a.json
-.terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
-
-# folders
 .terraform
+**/.terraform/*
+
+.terraform.lock.hcl
+
+terraform.tfvars
+
+*.tfstate
+*.tfstate.*
+
+variables.tf
