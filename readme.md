@@ -1,3 +1,34 @@
+# Terraform GCP Demo Project
+
+- Purpose of this project is test and understand the basics of Terraform.
+- Lots of files ignored from repo (such as terraform.tfvars, variables.tf etc...) because of security concerns. 
+
+- **How To Use**
+
+  - Create a GCP Service Account with Editor and Security Admin Privilage.
+  - Create a JSON Key for that Account and store it on some safe location.
+  - Manually Edit the attribute values starting with `var.` or create a `variables.tf` file with that attributes.
+  ```
+  variable "project" { default = "example_project_id" }
+
+  variable "credentials_file" { default = "example_credentials_file_path" }
+
+  variable "region" {
+    default = "example_region"
+  }
+
+  variable "zone" {
+    default = "example_Zone"
+  }
+  ```
+  - Use the command with these order => 
+    - `terraform init`
+    - `terraform fmt` *(optional)*
+    - `terraform validate` *(optional)*
+    - `terraform apply`
+
+  - Use the url value coming as a output to see your app.
+
 *terraform init*      => Directory Initialization.
 *terraform fmt*       => Automatically updates configurations in the current directory for readability and consistency.
 *terraform validate*  => Checking syntactically validity and internally consistency.
