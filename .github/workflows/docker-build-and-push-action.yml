@@ -1,0 +1,52 @@
+name: Build and Push Docker Image on GCP Artifact Registry
+
+on:
+  push:
+    branches: ['main']
+
+env:
+  REGISTRY_LOCATION: ${{ secrets.REGION }}
+  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WIP }}
+  SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+  BASE_IMAGE_TAG: ${{ secrets.REGION }}/${{ secrets.PROJECT_ID }}/terraform-test/angular
+
+jobs:
+  deploy:
+    name: 'Build & Push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          access_token_lifetime: 300s
+
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY_LOCATION }}
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Tag Docker image and push to Google Artifact Registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ env.BASE_IMAGE_TAG }}:latest
+          context: ./angular-terraform-dummy-app
+
+      # - name: Terraform Setup
+      #   uses: hashicorp/setup-terraform@v2
+      #   with:
+      #     terraform-version: 1.1.7
+
+      # - name: Terraform Init
+      #   run: terraform init
+
+      # - name: Terraform Destroy
+      #   run: terraform destroy -auto-approve
