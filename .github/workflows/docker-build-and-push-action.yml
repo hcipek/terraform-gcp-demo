@@ -8,7 +8,7 @@ env:
   REGISTRY_LOCATION: ${{ secrets.REGION }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WIP }}
   SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
-  BASE_IMAGE_TAG: ${{ secrets.REGION }}/${{ secrets.PROJECT_ID }}/terraform-test/angular
+  BASE_IMAGE_TAG: ${{ secrets.REGION }}/${{ secrets.PROJECT_ID }}/terraform-test
 
 jobs:
   deploy:
@@ -39,12 +39,19 @@ jobs:
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
-      - name: Tag Docker image and push to Google Artifact Registry
+      - name: Build & Push Angular Image to Google Artifact Registry
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ env.BASE_IMAGE_TAG }}:latest
+          tags: ${{ env.BASE_IMAGE_TAG }}/angular:latest
           context: ./angular-terraform-dummy-app
+
+      - name: Build & Push Java Image to Google Artifact Registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ env.BASE_IMAGE_TAG }}/java:latest
+          context: ./terraform-java-project
 
       # - name: Terraform Setup
       #   uses: hashicorp/setup-terraform@v2
@@ -54,5 +61,5 @@ jobs:
       # - name: Terraform Init
       #   run: terraform init
 
-      # - name: Terraform Destroy
-      #   run: terraform destroy -auto-approve
+      # - name: Terraform Apply
+      #   run: terraform apply -auto-approve

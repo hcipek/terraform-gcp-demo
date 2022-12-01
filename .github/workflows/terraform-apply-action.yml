@@ -1,0 +1,7 @@
+name: Terraform Apply
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Docker Image on GCP Artifact Registry"]
+    types:
+      - completed
