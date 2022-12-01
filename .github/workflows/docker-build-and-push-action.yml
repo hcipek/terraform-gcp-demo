@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY_LOCATION: ${{ secrets.REGION }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WIP }}
-  SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+  SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com"
   BASE_IMAGE_TAG: ${{ secrets.REGION }}/${{ secrets.PROJECT_ID }}/terraform-test/angular
 
 jobs:
