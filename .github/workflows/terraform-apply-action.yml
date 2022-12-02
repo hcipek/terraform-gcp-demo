@@ -60,7 +60,7 @@ jobs:
           path: terraform
           auto_approve: true
           variables: |
-            project = ${{ env.PROJECT }}
-            access_token = ${{ steps.auth.outputs.access_token }}
-            zone = ${{ env.ZONE }}
-            region = ${{ env.REGION }}
+            project = "${{ env.PROJECT }}"
+            access_token = "${{ steps.auth.outputs.access_token }}"
+            zone = "${{ env.ZONE }}"
+            region = "${{ env.REGION }}"
