@@ -1,6 +1,6 @@
 variable "project" {}
 
-variable "credentials" {}
+variable "credentials_file" {}
 
 variable "region" {}
 

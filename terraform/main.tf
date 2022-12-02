@@ -8,7 +8,8 @@ terraform {
 }
 
 provider "google" {
-  access_token = var.access_token
+  credentials = file(var.credentials_file)
+  # access_token = var.access_token
 
   project = var.project
   region  = var.region
