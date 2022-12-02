@@ -6,6 +6,15 @@ on:
     types:
       - completed
 
+env:
+  REGISTRY_LOCATION: ${{ secrets.REGISTRY_LOCATION }}
+  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WIP }}
+  PROJECT: ${{ secrets.PROJECT_ID }}
+  REGION: ${{ secrets.REGION }}
+  ZONE: ${{ secrets.ZONE }}
+  SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+  BASE_IMAGE_TAG: ${{ secrets.REGISTRY_LOCATION }}/${{ secrets.PROJECT_ID }}/terraform-test
+
 jobs:
   apply:
     name: 'Terraform Apply'
@@ -19,10 +28,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - id: auth
+        name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          access_token_lifetime: 300s
+
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v2
         with:
           terraform-version: 1.1.7
 
+      - name: Reading Secret 1
+        run: export TF_VAR_project=${{ env.PROJECT }}
+
+      - name: Reading Secret 2
+        run: export TF_VAR_access_token=${{ steps.auth.outputs.access_token }}
+        
+      - name: Reading Secret 3
+        run: export TF_VAR_region=${{ env.REGION }}
+
+      - name: Reading Secret 4
+        run: export TF_VAR_zone=${{ env.ZONE }}
+
       - name: Terraform Init
+        working-directory: ./terraform
         run: terraform init
+
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve

@@ -5,10 +5,10 @@ on:
     branches: ['main']
 
 env:
-  REGISTRY_LOCATION: ${{ secrets.REGION }}
+  REGISTRY_LOCATION: ${{ secrets.REGISTRY_LOCATION }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WIP }}
   SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
-  BASE_IMAGE_TAG: ${{ secrets.REGION }}/${{ secrets.PROJECT_ID }}/terraform-test
+  BASE_IMAGE_TAG: ${{ secrets.REGISTRY_LOCATION }}/${{ secrets.PROJECT_ID }}/terraform-test
 
 jobs:
   buildnpush:
