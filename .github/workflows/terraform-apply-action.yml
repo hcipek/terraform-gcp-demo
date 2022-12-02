@@ -5,3 +5,24 @@ on:
     workflows: ["Build and Push Docker Image on GCP Artifact Registry"]
     types:
       - completed
+
+jobs:
+  apply:
+    name: 'Terraform Apply'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Terraform Setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform-version: 1.1.7
+
+      - name: Terraform Init
+        run: terraform init

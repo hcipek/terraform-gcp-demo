@@ -11,7 +11,7 @@ env:
   BASE_IMAGE_TAG: ${{ secrets.REGION }}/${{ secrets.PROJECT_ID }}/terraform-test
 
 jobs:
-  deploy:
+  buildnpush:
     name: 'Build & Push'
     runs-on: ubuntu-latest
 
