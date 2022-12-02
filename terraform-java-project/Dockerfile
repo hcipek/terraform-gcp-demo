@@ -1,4 +1,4 @@
-FROM maven:3.8.2-openjdk-19-slim as builder
+FROM maven:3.8.6-eclipse-temurin-19-alpine as builder
 WORKDIR /maven-build
 COPY pom.xml .
 COPY src .
