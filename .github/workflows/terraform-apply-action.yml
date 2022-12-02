@@ -40,7 +40,7 @@ jobs:
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform-version: 1.1.7
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Reading Secret 1
         run: export TF_VAR_project=${{ env.PROJECT }}
@@ -58,6 +58,14 @@ jobs:
       - name: Terraform Init
         working-directory: ./terraform
         run: terraform init
+
+      - name: Terraform Format
+        working-directory: ./terraform
+        run: terraform fmt
+
+      - name: Terraform Validate
+        working-directory: ./terraform
+        run: terraform validate
 
       - name: Terraform Apply
         working-directory: ./terraform
