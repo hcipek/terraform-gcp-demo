@@ -42,19 +42,6 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      - name: Reading Secret 1
-        run: export TF_VAR_project=${{ env.PROJECT }}
-
-      - name: Reading Secret 2
-        # run: export TF_VAR_credentials_file=${{ secrets.GCP_SA_KEY }}
-        run: export TF_VAR_access_token=${{ steps.auth.outputs.access_token }}
-        
-      - name: Reading Secret 3
-        run: export TF_VAR_region=${{ env.REGION }}
-
-      - name: Reading Secret 4
-        run: export TF_VAR_zone=${{ env.ZONE }}
-
       - name: Terraform Init
         working-directory: ./terraform
         run: terraform init
@@ -67,6 +54,12 @@ jobs:
         working-directory: ./terraform
         run: terraform validate
 
-      - name: Terraform Apply
-        working-directory: ./terraform
-        run: terraform apply -auto-approve
+      - name: terraform apply
+        uses: dflook/terraform-apply@v1
+        with:
+          path: my-terraform-config
+          variables: |
+            project = ${{ env.PROJECT }}
+            access_token = ${{ steps.auth.outputs.access_token }}
+            zone = ${{ env.ZONE }}
+            region = ${{ env.REGION }}
