@@ -40,7 +40,8 @@ jobs:
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v2
         with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          terraform-version: 1.1.7
+          # cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
         working-directory: ./terraform
@@ -56,6 +57,17 @@ jobs:
 
       - name: terraform apply
         uses: dflook/terraform-apply@v1
+        with:
+          path: terraform
+          auto_approve: true
+          variables: |
+            project = "${{ env.PROJECT }}"
+            access_token = "${{ steps.auth.outputs.access_token }}"
+            zone = "${{ env.ZONE }}"
+            region = "${{ env.REGION }}"
+
+      - name: terraform destroy
+        uses: dflook/terraform-destroy@v1
         with:
           path: terraform
           auto_approve: true
