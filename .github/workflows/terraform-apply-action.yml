@@ -12,7 +12,7 @@ env:
   PROJECT: ${{ secrets.PROJECT_ID }}
   REGION: ${{ secrets.REGION }}
   ZONE: ${{ secrets.ZONE }}
-  SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
+  SERVICE_ACCOUNT: ${{ secrets.TERRAFORM_SERVICE_ACCOUNT }}@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com
   BASE_IMAGE_TAG: ${{ secrets.REGISTRY_LOCATION }}/${{ secrets.PROJECT_ID }}/terraform-test
 
 jobs:
