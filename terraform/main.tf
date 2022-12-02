@@ -16,7 +16,7 @@ provider "google" {
 }
 
 resource "google_cloud_run_service" "angular_service" {
-  name     = "terraform-cloudrun-test"
+  name     = "terraform-angular-service"
   location = var.region
 
   template {
@@ -60,7 +60,7 @@ resource "google_cloud_run_service_iam_member" "run_all_users_angular" {
 }
 
 resource "google_cloud_run_service" "java_service" {
-  name     = "terraform-cloudrun-test"
+  name     = "terraform-java-service"
   location = var.region
 
   template {
@@ -77,7 +77,7 @@ resource "google_cloud_run_service" "java_service" {
         #   }
         # }
         ports {
-          container_port = 8080
+          container_port = 10000
         }
         # resources {
 
