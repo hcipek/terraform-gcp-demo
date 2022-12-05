@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "projects": {
+    "angular-terraform-dummy-app": "apps/angular-terraform-dummy-app"
+  }
+}

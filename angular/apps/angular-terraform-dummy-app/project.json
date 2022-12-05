@@ -1,0 +1,97 @@
+{
+  "name": "angular-terraform-dummy-app",
+  "projectType": "application",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "less"
+    }
+  },
+  "sourceRoot": "apps/angular-terraform-dummy-app/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "outputPath": "dist/apps/angular-terraform-dummy-app",
+        "index": "apps/angular-terraform-dummy-app/src/index.html",
+        "main": "apps/angular-terraform-dummy-app/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/angular-terraform-dummy-app/tsconfig.app.json",
+        "inlineStyleLanguage": "less",
+        "assets": [
+          "apps/angular-terraform-dummy-app/src/favicon.ico",
+          "apps/angular-terraform-dummy-app/src/assets"
+        ],
+        "styles": [
+          "apps/angular-terraform-dummy-app/src/styles.less"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "angular-terraform-dummy-app:build:production"
+        },
+        "development": {
+          "browserTarget": "angular-terraform-dummy-app:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "angular-terraform-dummy-app:build"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
+        "tsConfig": "apps/angular-terraform-dummy-app/tsconfig.spec.json",
+        "inlineStyleLanguage": "less",
+        "assets": [
+          "apps/angular-terraform-dummy-app/src/favicon.ico",
+          "apps/angular-terraform-dummy-app/src/assets"
+        ],
+        "styles": [
+          "apps/angular-terraform-dummy-app/src/styles.less"
+        ],
+        "scripts": []
+      }
+    }
+  }
+}
