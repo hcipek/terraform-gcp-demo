@@ -44,7 +44,7 @@ jobs:
         with:
           push: true
           tags: ${{ env.BASE_IMAGE_TAG }}/angular:latest
-          context: ./angular-terraform-dummy-app
+          context: ./angular
 
       - name: Build & Push Java Image to Google Artifact Registry
         uses: docker/build-push-action@v2
@@ -53,25 +53,6 @@ jobs:
           tags: ${{ env.BASE_IMAGE_TAG }}/java:latest
           context: ./terraform-java-project
   
-  gcr-cleaner:
-    runs-on: 'ubuntu-latest'
-    steps:
-      - id: auth
-        name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v0
-        with:
-          token_format: access_token
-          workload_identity_provider: ${{ env.WIP }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
-          access_token_lifetime: 30s
-
-      - name: Login to Artifact Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
-
       - name: Artifact Registry Cleaner
         uses: 'docker://europe-docker.pkg.dev/gcr-cleaner/gcr-cleaner/gcr-cleaner-cli'
         with:
