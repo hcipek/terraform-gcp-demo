@@ -52,14 +52,30 @@ jobs:
           push: true
           tags: ${{ env.BASE_IMAGE_TAG }}/java:latest
           context: ./terraform-java-project
+  
+  gcr-cleaner:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - id: auth
+        name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          token_format: access_token
+          workload_identity_provider: ${{ env.WIP }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          access_token_lifetime: 30s
 
-      # - name: Terraform Setup
-      #   uses: hashicorp/setup-terraform@v2
-      #   with:
-      #     terraform-version: 1.1.7
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
 
-      # - name: Terraform Init
-      #   run: terraform init
-
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
+      - name: Artifact Registry Cleaner
+        uses: 'docker://europe-docker.pkg.dev/gcr-cleaner/gcr-cleaner/gcr-cleaner-cli'
+        with:
+          args: >-
+            -repo=${{ env.BASE_IMAGE_TAG }}/java
+            -repo=${{ env.BASE_IMAGE_TAG }}/angular
+            -grace=24h      
